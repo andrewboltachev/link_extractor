@@ -12,13 +12,11 @@ class LinkExtractor(object):
     def run(self, root_url):
         pages = self.put_first_page_into_list(root_url)
         not_yet_loaded_links = self.get_not_yet_loaded_links(pages)
-        i = 0
-        while len(not_yet_loaded_links) > 0 and i < 3:
+        while len(not_yet_loaded_links) > 0:
             loaded_pages = self.load_pages(not_yet_loaded_links)
             for page in loaded_pages:
                 pages.append(page)
             not_yet_loaded_links = self.get_not_yet_loaded_links(pages)
-            i += 1
         return pages
 
     def load_pages(self, links):
