@@ -35,3 +35,7 @@ class LinkExtractor(object):
         already_loaded_links = self.get_already_loaded_links(pages)
         sublinks = self.get_links_of_subpages(pages)
         not_yet_loaded_links = []
+        for link in sublinks:
+            if not link in already_loaded_links:
+                not_yet_loaded_links.append(link)
+        return not_yet_loaded_links
