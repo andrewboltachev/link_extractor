@@ -39,3 +39,11 @@ class LinkTestCase(unittest.TestCase):
         x = Link('http://site1.com')
         y = Link('http://site2.com')
         self.assertFalse(x == y)
+
+
+class PageReprTest(unittest.TestCase):
+    def test_repr(self):
+        p = Page(Link('http://site1.com'), [Link('http://site1.com/subpage1'), Link('http://site1.com/subpage2')])
+        x = repr(p)
+        y = '<Page: http://site1.com [<Link: http://site1.com/subpage1>, <Link: http://site1.com/subpage2>]>'
+        self.assertEqual(x, y)
