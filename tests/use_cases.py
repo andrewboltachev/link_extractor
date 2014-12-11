@@ -1,6 +1,6 @@
 import unittest
 from ..lib.use_cases import LinkExtractor
-from ..lib.enitites import (
+from ..lib.entities import (
     Page,
     Link,
 )

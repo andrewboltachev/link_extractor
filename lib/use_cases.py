@@ -1,4 +1,4 @@
-from .enitites import (
+from .entities import (
     Page,
     Link,
 )
