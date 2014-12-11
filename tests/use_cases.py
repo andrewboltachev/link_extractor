@@ -37,7 +37,6 @@ class LinkExtractorTestCase(unittest.TestCase):
 
     def test_it_extracts_links(self):
         x = self.l.run('http://site.com')
-        print x
         y = [
             Page(Link('http://site.com'), [
                 Link('http://site.com/subpage'),
