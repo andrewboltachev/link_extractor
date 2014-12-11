@@ -13,11 +13,24 @@ class Page(object):
         return '<Page: {} [{}]>'.format(self.link.url, ', '.join(map(repr, self.sublinks)))
 
 class Link(object):
-    def __init__(self, url):
-        self.url = url
+    def __init__(self, url, parent=None):
+        self._url = url
+        self.parent = parent
 
     def __eq__(self, other):
         return self.url == other.url
 
     def __repr__(self):
         return '<Link: {}>'.format(self.url)
+
+    def chain(self):
+        if self.parent is None:
+            parent_chain = []
+        else:
+            parent_chain = self.parent.chain()
+        return parent_chain + [self._url]
+
+    @property
+    def url(self):
+        from urlparse import urljoin
+        return reduce(urljoin, self.chain())

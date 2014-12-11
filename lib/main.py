@@ -1,3 +1,4 @@
+import requests
 import sys
 from .use_cases import LinkExtractor
 from .entities import (
@@ -11,10 +12,10 @@ class RequestsPageDownloader(object):
         import sys
         sys.stderr.write('Visting {}\n'.format(url))
         r = requests.get(url)
-        return r.content in status_code == 200 else ''
+        return r.content if r.status_code == 200 else ''
 
 
-class BSPageParser(PageParser):
+class BSPageParser(object):
 
     def content_to_urls_of_subpages(self, content):
         from bs4 import BeautifulSoup
@@ -22,7 +23,9 @@ class BSPageParser(PageParser):
         urls_of_subpages = [x.attrs['href'] for x in b.findAll('a')]
         return urls_of_subpages
 
-    def parse(
+    def parse(self, content):
+        urls_of_subpages = self.content_to_urls_of_subpages(content)
+        return list(map(Link, urls_of_subpages))
 
 
 if __name__ == '__main__':
