@@ -26,7 +26,7 @@ class LinkExtractorTestCase(unittest.TestCase):
                     )
                 elif html == 'http://site.com/subpage':
                     return Page(
-                        Link('http://site.com'),
+                        Link('http://site.com/subpage'),
                         []
                     )
 
@@ -58,7 +58,7 @@ class LinkExtractorTestCase(unittest.TestCase):
 
         self.assertEqual(x, y)
 
-    def test_get_not_yet_loaded_links(self):
+    def test_get_not_yet_loaded_links1(self):
         pages = [
             Page(Link('http://site.com'), [
                 Link('http://site.com/subpage'),
@@ -68,6 +68,21 @@ class LinkExtractorTestCase(unittest.TestCase):
         x = self.l.get_not_yet_loaded_links(pages)
         y = [
             Link('http://site.com/subpage'),
+        ]
+
+        self.assertEqual(x, y)
+
+    def test_get_not_yet_loaded_links2(self):
+        pages = [
+            Page(Link('http://site.com'), [
+                Link('http://site.com/subpage'),
+            ]),
+            Page(Link('http://site.com/subpage'), [
+            ]),
+        ]
+
+        x = self.l.get_not_yet_loaded_links(pages)
+        y = [
         ]
 
         self.assertEqual(x, y)
