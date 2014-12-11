@@ -18,17 +18,11 @@ class LinkExtractorTestCase(unittest.TestCase):
         class MockParser():
             def parse(self, html):
                 if html == 'http://site.com':
-                    return Page(
-                        Link('http://site.com'),
-                        [
-                            Link('http://site.com/subpage'),
-                        ]
-                    )
-                elif html == 'http://site.com/subpage':
-                    return Page(
+                    return [
                         Link('http://site.com/subpage'),
-                        []
-                    )
+                    ]
+                elif html == 'http://site.com/subpage':
+                    return []
 
         self.downloader = MockDownloader()
         self.parser = MockParser()

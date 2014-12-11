@@ -27,7 +27,7 @@ class LinkExtractor(object):
         return self.load_page(Link(url))
 
     def load_page(self, link):
-        return self.parser.parse(self.downloader.download(link.url))
+        return Page(link, self.parser.parse(self.downloader.download(link.url)))
 
     def put_first_page_into_list(self, url):
         return [self.load_url(url)]
