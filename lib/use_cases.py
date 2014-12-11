@@ -11,8 +11,8 @@ class LinkExtractor(object):
 
     def run(self, root_url):
         pages = self.put_first_page_into_list(url)
-        not_loaded_links = self.get_not_yet_loaded_links(pages)
-        while len(not_loaded_links) > 0:
+        not_yet_loaded_links = self.get_not_yet_loaded_links(pages)
+        while len(not_yet_loaded_links) > 0:
             self.load_links(pages, not_loaded_links)
         return pages
 
@@ -24,3 +24,14 @@ class LinkExtractor(object):
 
     def put_first_page_into_list(self, url):
         return [self.load_url(url)]
+
+    def get_already_loaded_links(self, pages):
+        return [page.link for page in pages]
+
+    def get_links_of_subpages(self, pages):
+        return [sublink for page in pages for sublink in page.sublinks]
+
+    def get_not_yet_loaded_links(self, pages):
+        already_loaded_links = self.get_already_loaded_links(pages)
+        sublinks = self.get_links_of_subpages(pages)
+        not_yet_loaded_links = []

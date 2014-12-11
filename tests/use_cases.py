@@ -55,12 +55,16 @@ class LinkExtractorTestCase(unittest.TestCase):
 
         self.assertEqual(x, y)
 
-    def te1st_get_not_yet_loaded_links(self):
-        x = self.l.get_not_yet_loaded_links('http://site.com')
-        y = [
+    def test_get_not_yet_loaded_links(self):
+        pages = [
             Page(Link('http://site.com'), [
                 Link('http://site.com/subpage'),
             ]),
+        ]
+
+        x = self.l.get_not_yet_loaded_links(pages)
+        y = [
+            Link('http://site.com/subpage'),
         ]
 
         self.assertEqual(x, y)
