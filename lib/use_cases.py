@@ -13,24 +13,30 @@ class LinkExtractor(object):
         pages = self.put_first_page_into_list(root_url)
         not_yet_loaded_links = self.get_not_yet_loaded_links(pages)
         while len(not_yet_loaded_links) > 0:
-            loaded_pages = self.load_pages(not_yet_loaded_links)
+            loaded_pages = self.load_pages(not_yet_loaded_links, bound_url=root_url)
             for page in loaded_pages:
                 pages.append(page)
             not_yet_loaded_links = self.get_not_yet_loaded_links(pages)
         return pages
 
-    def load_pages(self, links):
-        loaded_pages = [self.load_page(link) for link in links]
+    def load_pages(self, links, bound_url=None):
+        loaded_pages = [self.load_page(link, bound_url) for link in links]
         return loaded_pages
 
     def load_url(self, url):
         return self.load_page(Link(url))
 
-    def load_page(self, link):
-        urls = self.parser.parse(self.downloader.download(link.url))
+    def get_urls(self, url):
+        return self.parser.parse(self.downloader.download(url))
+
+    def load_page(self, link, bound_url=None):
+        urls = self.get_urls(link.url)
+        sublinks = [Link(url, parent=link) for url in urls]
+        if bound_url is not None:
+            sublinks = [sublink for sublink in sublinks if sublink.url.startswith(bound_url)]
         return Page(
             link,
-            [Link(url, parent=link) for url in urls]
+            sublinks
         )
 
     def put_first_page_into_list(self, url):
