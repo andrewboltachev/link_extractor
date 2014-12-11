@@ -19,7 +19,7 @@ class LinkExtractorTestCase(unittest.TestCase):
             def parse(self, html):
                 if html == 'http://site.com':
                     return [
-                        Link('http://site.com/subpage'),
+                        Link('http://site.com/subpage', parent=Link('http://site.com')),
                     ]
                 elif html == 'http://site.com/subpage':
                     return []
@@ -38,7 +38,6 @@ class LinkExtractorTestCase(unittest.TestCase):
             Page(Link('http://site.com/subpage'))
         ]
 
-        print x
         self.assertEqual(x, y)
 
 
@@ -46,7 +45,7 @@ class LinkExtractorTestCase(unittest.TestCase):
         x = self.l.put_first_page_into_list('http://site.com')
         y = [
             Page(Link('http://site.com'), [
-                Link('http://site.com/subpage'),
+                Link('/subpage', Link('http://site.com')),
             ]),
         ]
 
