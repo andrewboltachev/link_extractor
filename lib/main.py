@@ -29,4 +29,6 @@ if __name__ == '__main__':
         downloader=RequestsPageDownloader(),
         parser=BSPageParser()
     )
-    print link_extractor.run(sys.argv[1])
+    pages = link_extractor.run(sys.argv[1])
+    for page in pages:
+        print page.link.url
