@@ -19,7 +19,7 @@ class LinkExtractorTestCase(unittest.TestCase):
             def parse(self, html):
                 if html == 'http://site.com':
                     return [
-                        Link('http://site.com/subpage', parent=Link('http://site.com')),
+                        'http://site.com/subpage',
                     ]
                 elif html == 'http://site.com/subpage':
                     return []
