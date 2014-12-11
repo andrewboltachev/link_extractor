@@ -4,10 +4,10 @@ import operator
 class Page(object):
     def __init__(self, link, sublinks=None):
         self.link = link
-        self.sublinks = sublinks
+        self.sublinks = [] if sublinks is None else sublinks
 
     def __eq__(self, other):
-        return self.link == other.link and self.sublinks == other.sublinks
+        return self.link == other.link
 
     def __repr__(self):
         return '<Page: {} [{}]>'.format(self.link.url, ', '.join(map(repr, self.sublinks)))

@@ -7,6 +7,8 @@ from ..lib.entities import (
 
 
 class LinkExtractorTestCase(unittest.TestCase):
+    maxDiff = None
+
     def setUp(self):
         class MockDownloader():
             def download(self, url):
@@ -33,8 +35,9 @@ class LinkExtractorTestCase(unittest.TestCase):
         self.l = LinkExtractor(self.downloader, self.parser)
 
 
-    def te1st_it_extracts_links(self):
+    def test_it_extracts_links(self):
         x = self.l.run('http://site.com')
+        print x
         y = [
             Page(Link('http://site.com'), [
                 Link('http://site.com/subpage'),

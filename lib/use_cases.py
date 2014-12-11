@@ -10,16 +10,24 @@ class LinkExtractor(object):
         self.downloader = downloader
 
     def run(self, root_url):
-        pages = self.put_first_page_into_list(url)
+        pages = self.put_first_page_into_list(root_url)
         not_yet_loaded_links = self.get_not_yet_loaded_links(pages)
-        while len(not_yet_loaded_links) > 0:
-            self.load_links(pages, not_loaded_links)
+        i = 0
+        while len(not_yet_loaded_links) > 0 and i < 10:
+            loaded_pages = self.load_pages(not_yet_loaded_links)
+            for page in loaded_pages:
+                pages.append(page)
+            not_yet_loaded_links = self.get_not_yet_loaded_links(pages)
+            i += 1
         return pages
 
-    def load_url(self, url):
-        return self.load_link(Link(url))
+    def load_pages(self, links):
+        return [self.load_page(link) for link in links]
 
-    def load_link(self, link):
+    def load_url(self, url):
+        return self.load_page(Link(url))
+
+    def load_page(self, link):
         return self.parser.parse(self.downloader.download(link.url))
 
     def put_first_page_into_list(self, url):
