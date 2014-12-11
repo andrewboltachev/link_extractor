@@ -31,14 +31,14 @@ class LinkExtractorTestCase(unittest.TestCase):
 
     def test_it_extracts_links(self):
         x = self.l.run('http://site.com')
-        print x
         y = [
             Page(Link('http://site.com'), [
-                Link('/subpage1', parent=Link('http://site.com')),
+                Link('/subpage', parent=Link('http://site.com')),
             ]),
             Page(Link('http://site.com/subpage'))
         ]
 
+        print x
         self.assertEqual(x, y)
 
 

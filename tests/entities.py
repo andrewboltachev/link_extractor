@@ -16,17 +16,17 @@ class PageEqualityForLinksTestCase(unittest.TestCase):
         y = Page(Link('http://site2.com'))
         self.assertFalse(x == y)
 
-    def test_equal_pages_are_equal(self):
+    def test_equal_pages_are_equal1(self):
         x = Page(Link('http://site1.com/subpage'))
         y = Page(Link('/subpage', Link('http://site1.com')))
         self.assertEqual(x, y)
 
 
 class PageEqualityForSubLinksTestCase(unittest.TestCase):
-    def test_equal_pages_are_equal(self):
+    def test_non_equal_pages_are_not_equal(self):
         x = Page(Link('http://site1.com'), [Link('http://site1.com/subpage1')])
         y = Page(Link('http://site1.com'), [Link('http://site1.com/subpage2')])
-        self.assertTrue(x == y)
+        self.assertFalse(x == y)
 
 
 class LinkTestCase(unittest.TestCase):

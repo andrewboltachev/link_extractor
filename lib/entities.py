@@ -7,7 +7,7 @@ class Page(object):
         self.sublinks = [] if sublinks is None else sublinks
 
     def __eq__(self, other):
-        return self.link == other.link
+        return self.link == other.link and self.sublinks == other.sublinks
 
     def __repr__(self):
         return '<Page: {} [{}]>'.format(self.link.url, ', '.join(map(repr, self.sublinks)))
