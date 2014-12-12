@@ -48,3 +48,10 @@ class LinkExtractor(object):
             if not link in already_loaded_links:
                 not_yet_loaded_links.append(link)
         return not_yet_loaded_links
+
+
+class BoundURLMixin(object):
+    def get_urls(self, *args, **kwargs):
+        urls = super(BoundURLMixin, self).get_urls(*args, **kwargs)
+        urls = list(filter(lambda url: url.startswith(self.bound_url), urls))
+        return urls
