@@ -53,5 +53,6 @@ class LinkExtractor(object):
 class BoundURLMixin(object):
     def get_urls(self, *args, **kwargs):
         urls = super(BoundURLMixin, self).get_urls(*args, **kwargs)
-        urls = list(filter(lambda url: url.startswith(self.bound_url), urls))
+        if self.bound_url is not None:
+            urls = list(filter(lambda url: url.startswith(self.bound_url), urls))
         return urls

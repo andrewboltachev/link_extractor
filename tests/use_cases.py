@@ -96,3 +96,26 @@ class BoundURLMixinTestCase(unittest.TestCase):
                 'http://site1.com/subpage2',
             ]
         )
+
+    def test_2(self):
+        class Base(object):
+            def get_urls(self, url):
+                return [
+                    'http://site1.com/subpage1',
+                    'http://site1.com/subpage2',
+                    'http://site2.com/subpage1',
+                ]
+
+        class Derivative(BoundURLMixin, Base):
+            @property
+            def bound_url(self):
+                return None
+
+        self.assertEqual(
+            Derivative().get_urls('http://site1.com/'),
+            [
+                'http://site1.com/subpage1',
+                'http://site1.com/subpage2',
+                'http://site2.com/subpage1',
+            ]
+        )
