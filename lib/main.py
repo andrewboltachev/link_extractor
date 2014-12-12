@@ -30,5 +30,8 @@ if __name__ == '__main__':
         parser=BSPageParser()
     )
     pages = link_extractor.run(sys.argv[1])
+    unique_pages = []
     for page in pages:
-        print page.link.url
+        if page not in unique_pages:
+            unique_pages.append(page)
+            print page.link.url
