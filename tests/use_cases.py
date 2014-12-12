@@ -8,12 +8,14 @@ from ..lib.entities import (
 
 class MockDownloader():
     def download(self, url):
+        import sys
+        sys.stdout.write('Visting {}\n'.format(url))
         return url
 
 
 class MockParser():
     def parse(self, html):
-        if html == 'http://site.com':
+        if html == 'http://site.com/':
             return [
                 'http://site.com/subpage',
             ]
@@ -31,10 +33,10 @@ class LinkExtractorTestCase(unittest.TestCase):
 
 
     def test_it_extracts_links(self):
-        x = self.l.run('http://site.com')
+        x = self.l.run('http://site.com/')
         y = [
-            Page(Link('http://site.com'), [
-                Link('/subpage', parent=Link('http://site.com')),
+            Page(Link('http://site.com/'), [
+                Link('/subpage', parent=Link('http://site.com/')),
             ]),
             Page(Link('http://site.com/subpage'))
         ]
@@ -44,7 +46,7 @@ class LinkExtractorTestCase(unittest.TestCase):
 
     def test_get_not_yet_loaded_links1(self):
         pages = [
-            Page(Link('http://site.com'), [
+            Page(Link('http://site.com/'), [
                 Link('http://site.com/subpage'),
             ]),
         ]
@@ -58,7 +60,7 @@ class LinkExtractorTestCase(unittest.TestCase):
 
     def test_get_not_yet_loaded_links2(self):
         pages = [
-            Page(Link('http://site.com'), [
+            Page(Link('http://site.com/'), [
                 Link('http://site.com/subpage'),
             ]),
             Page(Link('http://site.com/subpage'), [
@@ -130,3 +132,8 @@ class LinkExtractorBoundToRootURLTestCase(unittest.TestCase):
         o = LinkExtractorBoundToRootURL(MockDownloader(), MockParser())
         self.assertIsInstance(o, BoundURLMixin)
         self.assertIsInstance(o, LinkExtractor)
+
+    def test_2(self):
+        o = LinkExtractorBoundToRootURL(MockDownloader(), MockParser())
+        o.run('http://site.com/')
+        self.assertEqual(o.bound_url, 'http://site.com/')

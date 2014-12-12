@@ -59,4 +59,6 @@ class BoundURLMixin(object):
 
 
 class LinkExtractorBoundToRootURL(BoundURLMixin, LinkExtractor):
-    pass
+    def run(self, root_url):
+        self.bound_url = root_url
+        return super(LinkExtractorBoundToRootURL, self).run(root_url)
