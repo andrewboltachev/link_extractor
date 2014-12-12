@@ -23,9 +23,6 @@ class LinkExtractor(object):
         loaded_pages = [self.load_page(link, bound_url) for link in links]
         return loaded_pages
 
-    def load_url(self, url):
-        return self.load_page(Link(url))
-
     def get_urls(self, url):
         return self.parser.parse(self.downloader.download(url))
 
