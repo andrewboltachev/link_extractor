@@ -56,3 +56,7 @@ class BoundURLMixin(object):
         if self.bound_url is not None:
             urls = list(filter(lambda url: url.startswith(self.bound_url), urls))
         return urls
+
+
+class LinkExtractorBoundToRootURL(BoundURLMixin, LinkExtractor):
+    pass

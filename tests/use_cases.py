@@ -6,24 +6,25 @@ from ..lib.entities import (
 )
 
 
+class MockDownloader():
+    def download(self, url):
+        return url
+
+
+class MockParser():
+    def parse(self, html):
+        if html == 'http://site.com':
+            return [
+                'http://site.com/subpage',
+            ]
+        elif html == 'http://site.com/subpage':
+            return []
+
+
 class LinkExtractorTestCase(unittest.TestCase):
     maxDiff = None
 
     def setUp(self):
-        class MockDownloader():
-            def download(self, url):
-                return url
-
-
-        class MockParser():
-            def parse(self, html):
-                if html == 'http://site.com':
-                    return [
-                        'http://site.com/subpage',
-                    ]
-                elif html == 'http://site.com/subpage':
-                    return []
-
         self.downloader = MockDownloader()
         self.parser = MockParser()
         self.l = LinkExtractor(self.downloader, self.parser)
@@ -119,3 +120,13 @@ class BoundURLMixinTestCase(unittest.TestCase):
                 'http://site2.com/subpage1',
             ]
         )
+
+
+from ..lib.use_cases import LinkExtractorBoundToRootURL
+
+
+class LinkExtractorBoundToRootURLTestCase(unittest.TestCase):
+    def test_1(self):
+        o = LinkExtractorBoundToRootURL(MockDownloader(), MockParser())
+        self.assertIsInstance(o, BoundURLMixin)
+        self.assertIsInstance(o, LinkExtractor)

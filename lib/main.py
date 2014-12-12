@@ -20,6 +20,10 @@ class BSPageParser(object):
         return urls_of_subpages
 
 
+class LinkExtractorBoundToRootURL(BoundURLMixin, LinkExtractor):
+    def run(self, root_url):
+
+
 if __name__ == '__main__':
     if not len(sys.argv) == 2:
         sys.stderr.write('Must be only one argument!\n')
